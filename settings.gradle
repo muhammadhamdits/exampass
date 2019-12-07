@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':exampassdosen', ':exampasspengawas'
 rootProject.name='Exam Pass'
