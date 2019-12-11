@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Exam Pass</string>
+
+    <string name="input_username">Username</string>
+    <string name="input_password">Password</string>
+
+    <string name="button_login">Login</string>
+    <string name="alt_loginimage">Login Image</string>
+    <string name="tv_logintoapplication">Login to Application</string>
 </resources>
