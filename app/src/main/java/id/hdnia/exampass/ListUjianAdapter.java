@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,9 +15,11 @@ import org.json.JSONObject;
 
 class ListUjianAdapter extends RecyclerView.Adapter<ListUjianAdapter.LuaViewHolder> {
     private JSONArray mDataSet;
+    public OnItemClickListener listener;
 
-    public ListUjianAdapter(JSONArray myDataSet) {
+    public ListUjianAdapter(JSONArray myDataSet, OnItemClickListener l) {
         mDataSet = myDataSet;
+        listener = l;
     }
 
     @NonNull
@@ -30,10 +33,19 @@ class ListUjianAdapter extends RecyclerView.Adapter<ListUjianAdapter.LuaViewHold
     @Override
     public void onBindViewHolder(@NonNull LuaViewHolder holder, int position) {
         try {
-            holder.txtNama.setText(mDataSet.getJSONObject(position).getString("nama_mk"));
+            holder.tvMataKuliah.setText(mDataSet.getJSONObject(position).getString("nama_mk"));
+            holder.tvRuangan.setText(mDataSet.getJSONObject(position).getString("ruangan"));
+            holder.tvMulai.setText(mDataSet.getJSONObject(position).getString("mulai"));
+            holder.tvSelesai.setText(mDataSet.getJSONObject(position).getString("selesai"));
+            holder.tvTanggal.setText(mDataSet.getJSONObject(position).getString("tanggal"));
+            holder.bind(mDataSet.getJSONObject(position), listener);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public interface RecyclerViewItemClick{
+        public void onItemClickListener(JSONObject holder, int position);
     }
 
     @Override
@@ -42,11 +54,32 @@ class ListUjianAdapter extends RecyclerView.Adapter<ListUjianAdapter.LuaViewHold
     }
 
     public class LuaViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtNama;
+        private TextView tvMataKuliah, tvRuangan, tvMulai, tvSelesai, tvTanggal;
 
         public LuaViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtNama = itemView.findViewById(R.id.txt_nama_mahasiswa);
+            tvMataKuliah = itemView.findViewById(R.id.tv_matakuliah);
+            tvRuangan = itemView.findViewById(R.id.tv_ruangan);
+            tvMulai = itemView.findViewById(R.id.tv_mulai);
+            tvSelesai = itemView.findViewById(R.id.tv_selesai);
+            tvTanggal = itemView.findViewById(R.id.tv_tanggal);
         }
+
+        public void bind(final JSONObject item, final OnItemClickListener l){
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        listener.onItemClick(item);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(JSONObject item) throws JSONException;
     }
 }

@@ -9,7 +9,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface BaseApiService {
-    // Fungsi ini untuk memanggil API http://10.0.2.2/mahasiswa/login.php
+    // Fungsi ini untuk memanggil API http://central.si.fti.unand.ac.id/ujian/
     @FormUrlEncoded
     @POST("api/login/users")
     Call<ResponseBody> loginRequest(@Field("username") String username,

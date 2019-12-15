@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListUjianActivity extends AppCompatActivity {
+public class ListUjianActivity extends AppCompatActivity{
     SharedPrefManager sharedPrefManager;
     String accessToken;
     BaseApiService mApiService;
@@ -46,8 +46,7 @@ public class ListUjianActivity extends AppCompatActivity {
 
             accessToken = sharedPrefManager.getToken();
             mApiService = UtilsApi.getAPIService();
-            requestListUjian();
-
+            requestListUjian();;
 //            rvListUjian = findViewById(R.id.rv_list_ujian);
 //            rvListUjian.setHasFixedSize(true);
 //            layoutManager = new LinearLayoutManager(this);
@@ -88,18 +87,27 @@ public class ListUjianActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     try {
                         JSONObject jsonRESULTS = new JSONObject(response.body().string());
-                        int jumlah = jsonRESULTS.getInt("data_count");
                         ujians = jsonRESULTS.getJSONArray("ujians");
 //                        Toast.makeText(ListUjianActivity.this, ujians.toString(), Toast.LENGTH_SHORT).show();
                         rvListUjian = findViewById(R.id.rv_list_ujian);
                         rvListUjian.setHasFixedSize(true);
                         rvListUjian.setLayoutManager(layoutManager);
-                        mAdapter = new ListUjianAdapter(ujians);
-                        Toast.makeText(ListUjianActivity.this, ujians.toString(), Toast.LENGTH_LONG).show();
+                        mAdapter = new ListUjianAdapter(ujians, new ListUjianAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(JSONObject item){
+                                try {
+                                    Toast.makeText(ListUjianActivity.this, item.getString("nama_mk"), Toast.LENGTH_LONG).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+//                        Toast.makeText(ListUjianActivity.this, ujians.toString(), Toast.LENGTH_LONG).show();
                         rvListUjian.setAdapter(mAdapter);
                     } catch (JSONException | IOException e){
-//                        Toast.makeText(ListUjianActivity.this, "Failed to get data", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ListUjianActivity.this, "Your Session Expired", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
+                        startMainActivity();
                     }
                 } else {
                     Toast.makeText(ListUjianActivity.this, "Failed to get data", Toast.LENGTH_SHORT).show();
