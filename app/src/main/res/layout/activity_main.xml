@@ -50,16 +50,17 @@
                 android:inputType="textPassword"
                 android:importantForAutofill="no"
                 android:id="@+id/input_password"/>
+
             <Button
+                android:id="@+id/button_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
                 android:layout_marginTop="24dp"
+                android:layout_marginBottom="40dp"
+                android:background="@color/colorPrimary"
                 android:text="@string/button_login"
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:layout_marginBottom="40dp"
-                android:id="@+id/button_login"/>
+                android:textSize="20sp" />
 
         </LinearLayout>
 
