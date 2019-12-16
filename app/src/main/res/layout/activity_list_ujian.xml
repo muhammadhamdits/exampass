@@ -15,7 +15,8 @@
         android:gravity="center"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:textColor="#000" />
+        android:textColor="#000"
+        android:id="@+id/tv_titlelistujian"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

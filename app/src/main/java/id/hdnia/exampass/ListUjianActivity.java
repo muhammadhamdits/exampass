@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -34,6 +35,7 @@ public class ListUjianActivity extends AppCompatActivity{
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     JSONArray ujians;
+    TextView titleListUjian;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class ListUjianActivity extends AppCompatActivity{
 
             accessToken = sharedPrefManager.getToken();
             mApiService = UtilsApi.getAPIService();
+            titleListUjian = findViewById(R.id.tv_titlelistujian);
             requestListUjian();;
 //            rvListUjian = findViewById(R.id.rv_list_ujian);
 //            rvListUjian.setHasFixedSize(true);
@@ -88,18 +91,18 @@ public class ListUjianActivity extends AppCompatActivity{
                     try {
                         JSONObject jsonRESULTS = new JSONObject(response.body().string());
                         ujians = jsonRESULTS.getJSONArray("ujians");
+                        String user = ujians.getJSONObject(0).getString("nama");
 //                        Toast.makeText(ListUjianActivity.this, ujians.toString(), Toast.LENGTH_SHORT).show();
+                        titleListUjian.setText("List Ujian "+user);
                         rvListUjian = findViewById(R.id.rv_list_ujian);
                         rvListUjian.setHasFixedSize(true);
                         rvListUjian.setLayoutManager(layoutManager);
                         mAdapter = new ListUjianAdapter(ujians, new ListUjianAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(JSONObject item){
-                                try {
-                                    Toast.makeText(ListUjianActivity.this, item.getString("nama_mk"), Toast.LENGTH_LONG).show();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                                Intent intent = new Intent(ListUjianActivity.this, ExamCardActivity.class);
+                                intent.putExtra("data", item.toString());
+                                startActivity(intent);
                             }
                         });
 //                        Toast.makeText(ListUjianActivity.this, ujians.toString(), Toast.LENGTH_LONG).show();
@@ -107,6 +110,7 @@ public class ListUjianActivity extends AppCompatActivity{
                     } catch (JSONException | IOException e){
                         Toast.makeText(ListUjianActivity.this, "Your Session Expired", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
+                        sharedPrefManager.saveToken("");
                         startMainActivity();
                     }
                 } else {
