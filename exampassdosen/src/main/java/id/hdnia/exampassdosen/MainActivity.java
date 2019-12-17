@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else{
-            startClassActivity(sharedPrefManager.getSpToken());
+            startClassActivity();
         }
     }
 
@@ -61,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         String token = "Bearer "+jsonObject.getString("access_token");
                         sharedPrefManager.saveSPToken(token);
-                        startClassActivity(token);
+                        startClassActivity();
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(MainActivity.this, "Failed to get data :(", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Wrong username/password.", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -77,9 +77,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void startClassActivity(String token) {
+    private void startClassActivity() {
         Intent intent = new Intent(MainActivity.this, ClassActivity.class);
-        intent.putExtra("token", token);
         startActivity(intent);
     }
 

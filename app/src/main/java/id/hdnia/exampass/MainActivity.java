@@ -70,8 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.e("debug", "onFailure: ERROR > " + t.toString());
-                        Toast.makeText(MainActivity.this, "Error :(", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Unable to reach server :(", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

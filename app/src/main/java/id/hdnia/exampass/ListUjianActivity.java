@@ -49,14 +49,7 @@ public class ListUjianActivity extends AppCompatActivity{
             accessToken = sharedPrefManager.getToken();
             mApiService = UtilsApi.getAPIService();
             titleListUjian = findViewById(R.id.tv_titlelistujian);
-            requestListUjian();;
-//            rvListUjian = findViewById(R.id.rv_list_ujian);
-//            rvListUjian.setHasFixedSize(true);
-//            layoutManager = new LinearLayoutManager(this);
-//            rvListUjian.setLayoutManager(layoutManager);
-//            mAdapter = new ListUjianAdapter(ujians);
-//            Toast.makeText(ListUjianActivity.this, ujians.toString(), Toast.LENGTH_LONG).show();
-//            rvListUjian.setAdapter(mAdapter);
+            requestListUjian();
         }
     }
 
@@ -120,8 +113,7 @@ public class ListUjianActivity extends AppCompatActivity{
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("debug", "onFailure: ERROR > " + t.toString());
-                Toast.makeText(ListUjianActivity.this, "Error :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListUjianActivity.this, "Server unreachable :(", Toast.LENGTH_SHORT).show();
             }
         });
     }
