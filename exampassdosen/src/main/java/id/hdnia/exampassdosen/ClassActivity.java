@@ -2,14 +2,18 @@ package id.hdnia.exampassdosen;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +29,11 @@ import retrofit2.Response;
 public class ClassActivity extends AppCompatActivity {
     BaseApiService baseApiService;
     SharedPrefManager sharedPrefManager;
+    RecyclerView rvListClasses;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+    JSONArray classes;
+    TextView titleListKelas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +46,7 @@ public class ClassActivity extends AppCompatActivity {
             setContentView(R.layout.activity_class);
 
             baseApiService = UtilsApi.getAPIService();
+            titleListKelas = findViewById(R.id.tv_title_list_kelas);
             String token = sharedPrefManager.getSpToken();
 
             getClass(token);
@@ -67,7 +77,23 @@ public class ClassActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
-                        Toast.makeText(ClassActivity.this, jsonObject.toString(), Toast.LENGTH_LONG).show();
+                        classes = jsonObject.getJSONArray("classes");
+                        String user = classes.getJSONObject(0).getString("nama");
+                        titleListKelas.setText("List Kelas "+user);
+
+                        rvListClasses = findViewById(R.id.rv_list_kelas);
+                        rvListClasses.setHasFixedSize(true);
+                        rvListClasses.setLayoutManager(layoutManager);
+
+                        adapter = new ClassAdapter(classes, new ClassAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(JSONObject item) {
+                                Intent intent = new Intent(ClassActivity.this, MahasiswaActivity.class);
+                                intent.putExtra("data", item.toString());
+                                startActivity(intent);
+                            }
+                        });
+                        rvListClasses.setAdapter(adapter);
                     } catch (JSONException | IOException e) {
                         logout();
                         e.printStackTrace();
