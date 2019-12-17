@@ -2,12 +2,14 @@ package id.hdnia.exampassdosen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -24,23 +26,30 @@ public class MainActivity extends AppCompatActivity {
     EditText password;
     Button login;
     BaseApiService baseApiService;
+    SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        sharedPrefManager = new SharedPrefManager(this);
 
-        username = findViewById(R.id.input_username);
-        password = findViewById(R.id.input_password);
-        login = findViewById(R.id.button_login);
-        baseApiService = UtilsApi.getAPIService();
+        if(sharedPrefManager.getSpToken().equals("")){
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                requestLogin();
-            }
-        });
+            username = findViewById(R.id.input_username);
+            password = findViewById(R.id.input_password);
+            login = findViewById(R.id.button_login);
+            baseApiService = UtilsApi.getAPIService();
+
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    requestLogin();
+                }
+            });
+        } else{
+            startClassActivity(sharedPrefManager.getSpToken());
+        }
     }
 
     private void requestLogin() {
@@ -49,20 +58,29 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
                     try {
-                        Toast.makeText(MainActivity.this, response.body().string(), Toast.LENGTH_LONG).show();
-                        //                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    } catch (IOException e) {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        String token = "Bearer "+jsonObject.getString("access_token");
+                        sharedPrefManager.saveSPToken(token);
+                        startClassActivity(token);
+                    } catch (IOException | JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(MainActivity.this, "Error with connection :(", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Failed to get data :(", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Failed to get data :(", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Error with connection :(", Toast.LENGTH_LONG).show();
             }
         });
     }
+
+    private void startClassActivity(String token) {
+        Intent intent = new Intent(MainActivity.this, ClassActivity.class);
+        intent.putExtra("token", token);
+        startActivity(intent);
+    }
+
 }
