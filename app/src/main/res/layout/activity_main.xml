@@ -8,6 +8,14 @@
     android:background="@color/colorAccent"
     android:scrollbarAlwaysDrawVerticalTrack="true">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:src="@drawable/iconmahasiswa"
+        android:translationZ="1dp"
+        android:layout_marginTop="48dp"
+        android:foregroundGravity="center"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +24,6 @@
         android:layout_marginTop="80dp"
         android:background="@color/white"
         android:paddingTop="64dp">
-
 
         <ImageView
             android:layout_width="match_parent"
