@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -72,6 +73,7 @@ public class ClassActivity extends AppCompatActivity {
 
     public void getClass(String token){
         baseApiService.getClass(token).enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
@@ -88,7 +90,7 @@ public class ClassActivity extends AppCompatActivity {
                         adapter = new ClassAdapter(classes, new ClassAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(JSONObject item) {
-                                Intent intent = new Intent(ClassActivity.this, MahasiswaActivity.class);
+                                Intent intent = new Intent(ClassActivity.this, ClassDetailActivity.class);
                                 intent.putExtra("data", item.toString());
                                 startActivity(intent);
                             }

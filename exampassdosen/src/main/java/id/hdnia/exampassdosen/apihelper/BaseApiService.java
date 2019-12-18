@@ -6,6 +6,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface BaseApiService {
     //Login
@@ -15,4 +16,7 @@ public interface BaseApiService {
 
     @POST("api/kartu-ujian/kelasdosen")
     Call<ResponseBody> getClass(@Header("Authorization") String token);
+
+    @POST("api/kartu-ujian/mhskelas/{kelas_id}")
+    Call<ResponseBody> getClassDetail(@Header("Authorization") String token, @Path("kelas_id") String kelas_id);
 }

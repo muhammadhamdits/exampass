@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/favicon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MahasiswaActivity"></activity>
+        <activity android:name=".ClassDetailActivity"></activity>
         <activity android:name=".ClassActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
