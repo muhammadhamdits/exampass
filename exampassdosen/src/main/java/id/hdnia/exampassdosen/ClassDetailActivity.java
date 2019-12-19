@@ -11,8 +11,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +37,7 @@ public class ClassDetailActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     SharedPrefManager sharedPrefManager;
     BaseApiService baseApiService;
+    FloatingActionButton buttonScan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +92,7 @@ public class ClassDetailActivity extends AppCompatActivity {
         ruangan = findViewById(R.id.ruangan);
         tanggal = findViewById(R.id.tanggal);
         waktu = findViewById(R.id.waktu);
+        buttonScan = findViewById(R.id.button_scan);
         baseApiService = UtilsApi.getAPIService();
 
         try {
@@ -99,6 +104,13 @@ public class ClassDetailActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        buttonScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ClassDetailActivity.this, "Success", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void getClassDetail(String spToken, int kelas_id) {
@@ -116,7 +128,11 @@ public class ClassDetailActivity extends AppCompatActivity {
                         adapter = new ClassDetailAdapter(jsonObject.getJSONArray("mahasiswas"), new ClassDetailAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(JSONObject item) {
-                                Toast.makeText(ClassDetailActivity.this, item.toString(), Toast.LENGTH_LONG).show();
+                                try {
+                                    Toast.makeText(ClassDetailActivity.this, item.getString("nama"), Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                         rvClassDetail.setAdapter(adapter);
