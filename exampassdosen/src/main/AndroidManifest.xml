@@ -3,6 +3,7 @@
     package="id.hdnia.exampassdosen">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,9 @@
         android:roundIcon="@mipmap/favicon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ClassDetailActivity"></activity>
+        <activity android:name=".ResultActivity"></activity>
+        <activity android:name=".ScanActivity" />
+        <activity android:name=".ClassDetailActivity" />
         <activity android:name=".ClassActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

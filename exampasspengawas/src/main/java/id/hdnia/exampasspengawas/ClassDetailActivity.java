@@ -1,4 +1,4 @@
-package id.hdnia.exampassdosen;
+package id.hdnia.exampasspengawas;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,8 +23,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Objects;
 
-import id.hdnia.exampassdosen.apihelper.BaseApiService;
-import id.hdnia.exampassdosen.apihelper.UtilsApi;
+import id.hdnia.exampasspengawas.apihelper.BaseApiService;
+import id.hdnia.exampasspengawas.apihelper.UtilsApi;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +54,7 @@ public class ClassDetailActivity extends AppCompatActivity {
                 JSONObject detailKelas = new JSONObject(Objects.requireNonNull(intent.getStringExtra("data")));
 
                 init(detailKelas);
-                getClassDetail(sharedPrefManager.getSpToken(), detailKelas.getInt("kelas_id"));
+                getClassDetail(sharedPrefManager.getSpToken(), detailKelas.getInt("kelas_id"), detailKelas.getInt("ruangan_id"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -120,8 +120,8 @@ public class ClassDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void getClassDetail(String spToken, int kelas_id) {
-        baseApiService.getClassDetail(spToken, String.valueOf(kelas_id)).enqueue(new Callback<ResponseBody>() {
+    private void getClassDetail(String spToken, int kelas_id, int ruangan_id) {
+        baseApiService.getClassDetail(spToken, String.valueOf(kelas_id), String.valueOf(ruangan_id)).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
