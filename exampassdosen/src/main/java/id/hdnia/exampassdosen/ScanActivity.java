@@ -65,5 +65,6 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         intent1.putExtra("passcode", passcode);
         intent1.putExtra("kelas_id", kelas_id);
         startActivity(intent1);
+        this.finish();
     }
 }

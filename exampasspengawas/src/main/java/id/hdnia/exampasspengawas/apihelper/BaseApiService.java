@@ -20,4 +20,9 @@ public interface BaseApiService {
     //Melihat detail kelas
     @POST("api/kartu-ujian/mhsruang/{kelas_id}/{ruangan_id}")
     Call<ResponseBody> getClassDetail(@Header("Authorization") String token, @Path("kelas_id") String kelas_id, @Path("ruangan_id") String ruangan_id);
+
+    //Verifikasi kartu ujian
+    @FormUrlEncoded
+    @POST("api/kartu-ujian/verifikasi")
+    Call<ResponseBody> verify(@Header("Authorization") String token, @Field("passcode") String passcode, @Field("kelas_id") String kelas_id);
 }

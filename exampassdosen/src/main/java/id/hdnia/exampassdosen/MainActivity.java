@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         sharedPrefManager = new SharedPrefManager(this);
 
         if(sharedPrefManager.getSpToken().equals("")){
-            super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
             username = findViewById(R.id.input_username);

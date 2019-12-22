@@ -23,6 +23,7 @@ public interface BaseApiService {
     Call<ResponseBody> getClassDetail(@Header("Authorization") String token, @Path("kelas_id") String kelas_id);
 
     //Verifikasi kartu ujian
+    @FormUrlEncoded
     @POST("api/kartu-ujian/verifikasi")
-    Call<ResponseBody> verifExamCard(@Header("Authorization") String token, @Field("passcode") String passcode, @Field("kelas_id") String kelas_id);
+    Call<ResponseBody> verify(@Header("Authorization") String token, @Field("passcode") String passcode, @Field("kelas_id") String kelas_id);
 }
