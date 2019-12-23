@@ -17,8 +17,8 @@
         android:theme="@style/AppTheme"
         tools:targetApi="n">
         <activity android:name=".ExamCardActivity"></activity>
-        <activity android:name=".ListUjianActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ListUjianActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
